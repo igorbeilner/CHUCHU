@@ -9,7 +9,7 @@ class pilha{
 
 	public void push(int n){
 		this.topo=this.topo +1;
-		this.vec[topo]=n;
+		this.vec[this.topo]=n;
 	}
 
 	public void pop(){
