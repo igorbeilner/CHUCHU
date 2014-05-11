@@ -1,8 +1,8 @@
-class pilha{
+class Pilha{
 	private int[] vec;
 	private int topo;
 
-	public pilha(){
+	public Pilha(){
 		vec=new int[1000];
 		topo=-1;
 	}

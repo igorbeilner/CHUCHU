@@ -1,9 +1,9 @@
-class memoria{
-	variable[] array;
+class Memoria{
+	Variable[] array;
 	private int last;
 
-	public memoria(){
-		array=new variable[1000];
+	public Memoria(){
+		array=new Variable[1000];
 		last = 0;	
 	}
 
@@ -15,7 +15,7 @@ class memoria{
 				return 1;			
 			}
 		}
-		array[i]=new variable(x, h);
+		array[i]=new Variable(x, h);
 		last++;
 		return 0;
 	}
@@ -26,7 +26,15 @@ class memoria{
 			if(array[i] != null && (array[i].nome).equals(h))
 				return array[i].get_valor();
 		}
-		return 12312312;
+		return 0;
+	}
+
+	public boolean variavelExiste(String h){
+		int i;
+		for(i=0; i<last; i++)
+			if((array[i].nome).equals(h))
+				return true;
+		return false;
 	}
 
 }

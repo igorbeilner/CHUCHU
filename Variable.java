@@ -1,8 +1,8 @@
-class variable{
+class Variable{
 	private double valor;
 	public String nome;
 
-	public variable(double x, String h){
+	public Variable(double x, String h){
 		this.valor=x;
 		this.nome=h;
 	}
