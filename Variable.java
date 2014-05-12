@@ -1,3 +1,12 @@
+/**
+ *	Autor: Ricardo Parizotto
+ *   E-mail: ricardo.dparizotto@gmail.com
+ *
+ *	Esta classe representa a estrutura de uma variável.
+ *	Só existem variaveis do tipo Double.
+ *
+**/	
+
 class Variable{
 	private double valor;
 	public String nome;

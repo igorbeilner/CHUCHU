@@ -1,3 +1,12 @@
+/**
+ *	Autor: Ricardo Parizotto
+ *   E-mail: ricardo.dparizotto@gmail.com
+ *
+ *	Esta classe é a implementação de uma pilha simples.
+ *	Ela auxilia na execução dos Desvios incondicionais e condicionais da linguagem.
+ *
+**/	
+
 class Pilha{
 	private int[] vec;
 	private int topo;

@@ -1,0 +1,23 @@
+#y
+!1 & 1
+	§'digite o valor: '
+	.y
+	@ y & 0
+		€
+	$
+	#x = 2
+	#bool
+	!x < y
+		@y%x & 0
+			§'não é primo'
+			§' '
+			#bool = 1
+			€
+		$
+		#x = x +1
+	¬
+	@bool & 0
+		§'é primo'
+		§' '
+	$
+¬

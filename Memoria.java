@@ -1,3 +1,12 @@
+/**
+ *	Autor: Ricardo Parizotto
+ *   E-mail: ricardo.dparizotto@gmail.com
+ *
+ *	Esta classe representa uma memória de variáveis. É basicamente um vetor de variáveis.
+ *	A inserção de valor em uma variável não depende de sua declaração.
+ *
+**/	
+
 class Memoria{
 	Variable[] array;
 	private int last;

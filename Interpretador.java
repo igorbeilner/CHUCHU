@@ -1,21 +1,31 @@
+/**
+ *	Autor: Ricardo Parizotto
+ *   E-mail: ricardo.dparizotto@gmail.com
+ *
+ *	Esta classe possui métodos para imprimir e realizar desvios de instruções
+ *   e possui o método que "LÊ" todas as instruções e as executa - se possível -.
+ *
+**/	
+
+import java.util.Scanner;
+
 class Interpretador{
 
 	private Pilha loop;
 	private String temp;
 	private Memoria mem;
 	private int cont;
-	private Alu solve;	
+	private Alu solve;
+	private Scanner s;	
 	
 	public Interpretador(){
 		loop=new Pilha();
 		mem = new Memoria();
 		solve = new Alu();
-		cont = 0;
+		s=new Scanner(System.in);
 	}
 
-
-//lembrar de passar as expressões sem o token;
-	public void imprime(String expressao){
+	private void imprime(String expressao){
 		expressao=expressao.trim();
 		String[] vars=expressao.split(">");
 		for(int i=0; i<vars.length; i++){
@@ -28,68 +38,87 @@ class Interpretador{
 		System.out.print("\n");
 	}
 
+	private int desvio(String[] cmd, int i, char inicio){
+		int cont=0;		
+		char fim='$';	
 
-	public void interpreta(String code){
-		String[] cmd=code.split(";");
+		if(inicio=='!')
+			fim='¬';	
+
+		for(i=i+1;i<cmd.length && cmd[i] != null;i++)
+			if(cmd[i].charAt(0)==inicio)
+				cont++;
+			else if(cmd[i].charAt(0)==fim)
+					if(cont==0)
+						break;
+					else
+						cont--;
+		return i;
+	} 
+
+	public void interpreta(String[] cmd){
 		int i;
 		char instrucao;
-
-		for(i=0; i<cmd.length; i++)
+		String temp;
+		
+		//Elimina os espaços de todas as linhas
+		for(i=0; i<cmd.length && cmd[i] != null; i++)
 			cmd[i]=cmd[i].trim();
 
-		for(i=0; i<cmd.length; i++){
-
+		for(i=0; i<cmd.length && cmd[i] != null; i++){
+			//Retira o token e salva na instrucao
 			instrucao=cmd[i].charAt(0);
 			temp=cmd[i].substring(1);
 			temp=temp.trim();
 
 			switch(instrucao){
-			case'#':
- 
-				//atualiza variavel
-				String[] newvar=temp.split("=");
-				double n = (newvar.length > 1)? solve.leExpressao(newvar[1], mem): 0;
-				mem.atualizaVar(n, newvar[0].trim());
-				break;
+				case'#':
+					//atualiza variavel
+					String[] newvar=temp.split("=");
+					double n = (newvar.length > 1)? solve.leExpressao(newvar[1], mem): 0;
+					mem.atualizaVar(n, newvar[0].trim());
+					break;
+				case '§': 
+					//imprime 
+					this.imprime(temp);
+					break;
 
-			case '§': //imprime 
-				this.imprime(temp);
-				break;
-			case '@': //if
-				if(solve.leIf(temp, mem)==false)
-					for(;i<cmd.length;i++)
-						if(cmd[i].charAt(0)=='@')
-							cont++;
-						else if(cmd[i].charAt(0)=='$')
-								if(cont==0)
-									break;
-								else
-									cont--;
-				break;
-			case '!': //loop;
-				if(solve.leIf(temp, mem)==true)
-					loop.push(i);
-				else
-					for(i=i+1;i<cmd.length;i++)
-						if(cmd[i].charAt(0)=='!')
-							cont++;
-						else if(cmd[i].charAt(0)=='¬')
-								if(cont==0)
-									break;
-								else
-									cont--;
-				break;
-			case '¬':	//end loop;
-				if(loop.vazio())				
-					i=loop.topo()-1;
-				loop.pop();
-				break;
-			case '€': //break;
-				while(cmd[i].charAt(0)!='¬')
-					i++;
-				break;
+				case '@': 
+					//if
+					if(solve.leIf(temp, mem)==false)
+						i=desvio(cmd, i, instrucao);
+					break;
+
+				case '!': 
+					//loop;
+					if(solve.leIf(temp, mem)==true)
+						loop.push(i);
+					else
+						i = this.desvio(cmd, i, instrucao);
+					break;
+			
+				case '¬':
+					//end loop;
+					if(loop.vazio())				
+						i=loop.topo()-1;
+					loop.pop();
+					break;
+	
+				case '€': 
+					//break;
+					i=desvio(cmd, i, '!');
+					loop.pop();
+					break;
+				case '.':
+					//scan
+					if(mem.variavelExiste(temp)){
+						double x = s.nextDouble();
+						mem.atualizaVar(x, temp);
+					}else
+						System.out.println("ERRO: A variável não existe");
+					break;
 			}	
-		}
+		}		
 	}
 }
 

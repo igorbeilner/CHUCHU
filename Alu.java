@@ -1,3 +1,13 @@
+/**
+ *	Autor: Ricardo Parizotto
+ *   E-mail: ricardo.dparizotto@gmail.com
+ *
+ *	Esta classe possui os métodos capazes de resolver expressões booleanas de 2
+ *	operandos e expressões matemáticas com vários operandos. Uma expressao booleana pode
+ *	utilizar expressões matematicas. Ex:  a+1 < b
+ *
+**/	
+
 class Alu{
 
 		public double leExpressao(String expressao, Memoria mem){
