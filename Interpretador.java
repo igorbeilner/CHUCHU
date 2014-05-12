@@ -44,7 +44,6 @@ class Interpretador{
 
 		if(inicio=='!')
 			fim='¬';	
-
 		for(i=i+1;i<cmd.length && cmd[i] != null;i++)
 			if(cmd[i].charAt(0)==inicio)
 				cont++;
@@ -111,11 +110,8 @@ class Interpretador{
 					break;
 				case '.':
 					//scan
-					if(mem.variavelExiste(temp)){
-						double x = s.nextDouble();
-						mem.atualizaVar(x, temp);
-					}else
-						System.out.println("ERRO: A variável não existe");
+					double x = s.nextDouble();
+					mem.atualizaVar(x, temp);
 					break;
 			}	
 		}		
