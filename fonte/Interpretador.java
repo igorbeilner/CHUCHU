@@ -60,7 +60,7 @@ class Interpretador{
 		char instrucao;
 		String temp;
 		
-		//Elimina os espaços de todas as linhas
+		//Elimina os espaços de todas as linhas e substitui pelos tokens
 		for(i=0; i<cmd.length && cmd[i] != null; i++){
 			cmd[i]=cmd[i].trim();
 			cmd[i]=cmd[i].replace("end if","$");

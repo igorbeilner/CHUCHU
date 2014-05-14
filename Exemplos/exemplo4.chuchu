@@ -1,0 +1,4 @@
+var a = 1 + 1
+var b = 3 + a
+show a
+show b
