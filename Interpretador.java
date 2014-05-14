@@ -61,10 +61,20 @@ class Interpretador{
 		String temp;
 		
 		//Elimina os espaços de todas as linhas
-		for(i=0; i<cmd.length && cmd[i] != null; i++)
+		for(i=0; i<cmd.length && cmd[i] != null; i++){
 			cmd[i]=cmd[i].trim();
+			cmd[i]=cmd[i].replace("end if","$");
+			cmd[i]=cmd[i].replace("end while","¬");
+			cmd[i]=cmd[i].replace("var","#");
+			cmd[i]=cmd[i].replace("if","@");
+			cmd[i]=cmd[i].replace("while","!");
+			cmd[i]=cmd[i].replace("show","§");
+			cmd[i]=cmd[i].replace("break","€");
+			cmd[i]=cmd[i].replace("get",".");
+		}
 
 		for(i=0; i<cmd.length && cmd[i] != null; i++){
+							
 			//Retira o token e salva na instrucao
 			instrucao=cmd[i].charAt(0);
 			temp=cmd[i].substring(1);
@@ -113,7 +123,7 @@ class Interpretador{
 					double x = s.nextDouble();
 					mem.atualizaVar(x, temp);
 					break;
-			}	
+			}
 		}		
 	}
 }

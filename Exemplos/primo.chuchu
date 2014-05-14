@@ -1,23 +1,22 @@
-#y
-!1 & 1
-	§'digite o valor: '
-	.y
-	@ y & 0
-		€
-	$
-	#x = 2
-	#bool
-	!x < y
-		@y%x & 0
-			§'não é primo'
-			§' '
-			#bool = 1
-			€
-		$
-		#x = x +1
-	¬
-	@bool & 0
-		§'é primo'
-		§' '
-	$
-¬
+while 1 & 1
+	show 'digite o valor: '
+	get y
+	if y & 0
+		break
+	end if
+	var x = 2
+	var bool
+	while x < y
+		if y%x & 0
+			show	'não é primo'
+			show ' '
+			var bool = 1
+			break
+		end if
+		var x = x +1
+	end while
+	if bool & 0
+		show 'é primo'
+		show ' '
+	end if
+end while
