@@ -21,7 +21,11 @@ class Alu{
 			if(mem.variavelExiste(vars[i]))
 				vec[i]=mem.variavelView(vars[i]);
 			else 
-				vec[i]=Double.parseDouble(vars[i]);
+				try{
+					vec[i]=Double.parseDouble(vars[i]);
+				}catch(Exception e){
+					vec[i]=0;
+				}
 		}
 
 		double resultado=vec[0];

@@ -55,7 +55,7 @@ class Interpretador{
 		return i;
 	} 
 
-	public void interpreta(String[] cmd){
+	public boolean interpreta(String[] cmd){
 		int i;
 		char instrucao;
 		String temp;
@@ -123,8 +123,15 @@ class Interpretador{
 					double x = s.nextDouble();
 					mem.atualizaVar(x, temp);
 					break;
+				case '$':
+					//end if
+					break;
+				default: 
+					System.out.println(" syntax error "+ (i+1));
+					return false;
 			}
-		}		
+		}	
+	return true;
 	}
 }
 
