@@ -17,12 +17,14 @@ class Interpretador{
 	private int cont;
 	private Alu solve;
 	private Scanner s;	
+	private int flagElse;
 	
 	public Interpretador(){
 		loop=new Pilha();
 		mem = new Memoria();
 		solve = new Alu();
 		s=new Scanner(System.in);
+		flagElse = 0;
 	}
 
 	private void imprime(String expressao){
@@ -42,16 +44,21 @@ class Interpretador{
 		int cont=0;		
 		char fim='$';	
 
+		if(inicio=='^')
+			fim = 'o';
+
 		if(inicio=='!')
 			fim='¬';	
-		for(i=i+1;i<cmd.length && cmd[i] != null;i++)
+		for(i=i+1;i<cmd.length && cmd[i] != null;i++) {
 			if(cmd[i].charAt(0)==inicio)
 				cont++;
-			else if(cmd[i].charAt(0)==fim)
+			else if(cmd[i].charAt(0)==fim) {
 					if(cont==0)
 						break;
 					else
 						cont--;
+			}
+		}
 		return i;
 	} 
 
@@ -63,6 +70,7 @@ class Interpretador{
 		//Elimina os espaços de todas as linhas e substitui pelos tokens
 		for(i=0; i<cmd.length && cmd[i] != null; i++){
 			cmd[i]=cmd[i].trim();
+			cmd[i]=cmd[i].replace("end else","o");
 			cmd[i]=cmd[i].replace("end if","$");
 			cmd[i]=cmd[i].replace("end while","¬");
 			cmd[i]=cmd[i].replace("var","#");
@@ -71,6 +79,7 @@ class Interpretador{
 			cmd[i]=cmd[i].replace("show","§");
 			cmd[i]=cmd[i].replace("break","€");
 			cmd[i]=cmd[i].replace("get",".");
+			cmd[i]=cmd[i].replace("else","^");
 		}
 
 		for(i=0; i<cmd.length && cmd[i] != null; i++){
@@ -96,8 +105,18 @@ class Interpretador{
 					//if
 					if(solve.leIf(temp, mem)==false)
 						i=desvio(cmd, i, instrucao);
+					else flagElse = 1;
 					break;
-
+				case '^':
+					//else
+					if(flagElse == 1) {
+						i=desvio(cmd, i, instrucao);
+						flagElse = 0;
+					}
+					break;
+				case 'o':
+					//end else;
+					break;
 				case '!': 
 					//loop;
 					if(solve.leIf(temp, mem)==true)
