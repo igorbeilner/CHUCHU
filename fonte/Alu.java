@@ -10,7 +10,7 @@
 
 class Alu{
 
-		public double leExpressao(String expressao, Memoria mem){
+	public double leExpressao(String expressao, Memoria mem){
 		expressao=expressao.trim();
 		String[] vars=expressao.split("\\*|\\+|\\-|%|/");
 		double[] vec=new double[vars.length]; 
@@ -20,12 +20,13 @@ class Alu{
 			vars[i]=vars[i].trim();
 			if(mem.variavelExiste(vars[i]))
 				vec[i]=mem.variavelView(vars[i]);
-			else 
+			else {
 				try{
 					vec[i]=Double.parseDouble(vars[i]);
 				}catch(Exception e){
 					vec[i]=0;
 				}
+			}
 		}
 
 		double resultado=vec[0];
