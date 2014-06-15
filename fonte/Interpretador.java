@@ -80,6 +80,7 @@ class Interpretador{
 			cmd[i]=cmd[i].replace("break","€");
 			cmd[i]=cmd[i].replace("get",".");
 			cmd[i]=cmd[i].replace("else","^");
+			cmd[i]=cmd[i].replace("vet","_");
 		}
 
 		for(i=0; i<cmd.length && cmd[i] != null; i++){
@@ -100,7 +101,38 @@ class Interpretador{
 					//imprime 
 					this.imprime(temp);
 					break;
-
+				case '_': 
+					//vetores
+					String[] k = cmd[i].split("\\[|\\]|=");
+					int tam = 0;
+					double v = 0.0;
+					try {
+						tam = Integer.parseInt(k[1]);
+						if (k.length == 4) {
+							v = Double.parseDouble(k[3]);
+						}
+					}catch(Exception e) {
+						System.out.println("tamanho de vetor invalido");
+						System.exit(0);
+					}
+					int j;
+					j = mem.verificaVetor(k[2]);
+					if(j == 0) {
+						k[2] = k[2].trim();
+						mem.criaVetor(k[2], tam);
+						if(k.length == 4) {
+							System.out.println("Que que tu fez viado ?");
+							System.exit(0);
+						}
+					} else {
+						if(k.length == 4) {
+							mem.atribuiVetor(k[2], j, v);
+						} else {
+							System.out.println("Que que tu fez viado2 ?");
+							System.exit(0);
+						}
+					}
+					break;
 				case '@': 
 					//if
 					if(solve.leIf(temp, mem)==false)
