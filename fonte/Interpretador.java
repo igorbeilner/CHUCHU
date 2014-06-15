@@ -28,26 +28,31 @@ class Interpretador{
 	}
 
 	private void imprime(String expressao){
-		int j;
-		int kj;
-		double jk;
 		expressao=expressao.trim();
+		double f;
+		int indiceVet = 0;
 		String[] vars=expressao.split(">");
-		String[] aux=expressao.split("\\[|\\]");
-		try {
-			kj = Integer.parseInt(aux[1]);
-		}catch(Exception e) {
-			jk = solve.leExpressao(vars[i], mem);
-		}
+		String[] aux = expressao.split("\\[|\\]");
 		for(int i=0; i<vars.length; i++){
-			j = mem.verificaVetor(vars[i]);
 			vars[i]=vars[i].trim();
-			if(vars[i].charAt(0)=='\''){
+			aux[i]=aux[i].trim();
+			if(mem.verificaVetor(aux[i]) != 0) {
+				try {
+					indiceVet = Integer.parseInt(aux[i+1]);
+				}catch(Exception e) {
+					if(mem.variavelExiste(aux[i+1])) {
+						indiceVet = (int)mem.variavelView(aux[i+1]);
+					} else {
+						System.out.println("posicao de vetor invalida");
+						System.exit(0);
+					}
+				}
+				f = mem.leVetor(aux[i], indiceVet);
+				System.out.print(f);
+			}else if(vars[i].charAt(0)=='\''){
 				String[] temp=vars[i].split("\'");
 				System.out.print(temp[1]);
-			} else if(j != 0) {
-				System.out.println(mem.getVetor(j));
-			} else  {
+			} else {
 				System.out.print(solve.leExpressao(vars[i], mem));
 			}
 		}
@@ -74,7 +79,20 @@ class Interpretador{
 			}
 		}
 		return i;
-	} 
+	}
+
+	private double ula(String opera, double a, double b) {
+		if(opera.contains("+")) return a + b;
+		if(opera.contains("-")) return a - b;
+		if(opera.contains("*")) return a * b;
+		if(opera.contains("/")) return a / b;
+		if(opera.contains("%")) return a % b;
+		else {
+			System.out.println("expressao invalida");
+			System.exit(0);
+		}
+		return 0;
+	}
 
 	public boolean interpreta(String[] cmd){
 		int i;
@@ -117,17 +135,53 @@ class Interpretador{
 					break;
 				case '_': 
 					//vetores
-					String[] k = cmd[i].split("\\[|\\]|=");
+					String[] k = cmd[i].split("\\+|\\*|\\-|\\%|\\/|\\[|\\]|=");
+					String[] op = cmd[i].split("\\[|\\]|=");
 					int tam = 0;
 					double v = 0.0;
+					double v2 = 0.0;
 					try {
 						tam = Integer.parseInt(k[1]);
 						if (k.length == 4) {
 							v = Double.parseDouble(k[3]);
 						}
 					}catch(Exception e) {
-						System.out.println("tamanho de vetor invalido");
-						System.exit(0);
+						k[1] = k[1].trim();
+						if (k.length == 4 || k.length == 5) {
+							k[3] = k[3].trim();
+							try {
+								v = Double.parseDouble(k[3]);
+							}catch(Exception f) {
+								if(mem.variavelExiste(k[3])) {
+									v = (int)mem.variavelView(k[3]);
+								} else {
+									System.out.println("atribuicao invalida1");
+									System.exit(0);
+								}
+							}
+//---------------------------------------------------------------------------------------------							
+						}
+						if (k.length == 5) {
+							k[4] = k[4].trim();
+							try {
+								v2 = Double.parseDouble(k[4]);
+							}catch(Exception f) {
+								if(mem.variavelExiste(k[4])) {
+									v2 = (int)mem.variavelView(k[4]);
+								} else {
+									System.out.println("atribuicao invalida");
+									System.exit(0);
+								}
+							}
+							v = ula(op[3], v, v2);						
+						}
+//---------------------------------------------------------------------------------------------
+						if(mem.variavelExiste(k[1])) {
+							tam = (int)mem.variavelView(k[1]);
+						} else {
+							System.out.println("tamanho de vetor invalido");
+							System.exit(0);
+						}
 					}
 					int j;
 					k[2] = k[2].trim();
@@ -139,8 +193,8 @@ class Interpretador{
 							System.exit(0);
 						}
 					} else {
-						if(k.length == 4) {
-							mem.atribuiVetor(k[2], j, v);
+						if(k.length == 4 || k.length == 5) {
+							mem.atribuiVetor(k[2], tam, v);
 						} else {
 							System.out.println("Que que tu fez viado2 ?");
 							System.exit(0);
