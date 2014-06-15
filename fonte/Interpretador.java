@@ -32,7 +32,7 @@ class Interpretador{
 		double f;
 		int indiceVet = 0;
 		String[] vars=expressao.split(">");
-		String[] aux = expressao.split("\\[|\\]");
+		String[] aux = expressao.split("\\[|\\]|\\>");
 		for(int i=0; i<vars.length; i++){
 			vars[i]=vars[i].trim();
 			aux[i]=aux[i].trim();
@@ -196,7 +196,7 @@ class Interpretador{
 						indice = verificaIndice(k[5]);
 						v = mem.leVetor(k[4], indice);
 						v2 = verificaatribuicao(k[3]);
-						v = ula(op[3], v, v2);
+						v = ula(op[3], v2, v);
 					}
 
 					else if(k.length == 7) {
@@ -284,5 +284,3 @@ class Interpretador{
 	return true;
 	}
 }
-
-
