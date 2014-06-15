@@ -67,6 +67,7 @@ class Memoria{
 	}
 
 	public int verificaVetor(String h) {
+		h=h.trim();
 		int i;
 		for(i = 1; i <= topo; i++) {
 			if((vet[i].getNome()).equals(h)) return i;
