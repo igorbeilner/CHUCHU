@@ -28,14 +28,28 @@ class Interpretador{
 	}
 
 	private void imprime(String expressao){
+		int j;
+		int kj;
+		double jk;
 		expressao=expressao.trim();
 		String[] vars=expressao.split(">");
+		String[] aux=expressao.split("\\[|\\]");
+		try {
+			kj = Integer.parseInt(aux[1]);
+		}catch(Exception e) {
+			jk = solve.leExpressao(vars[i], mem);
+		}
 		for(int i=0; i<vars.length; i++){
+			j = mem.verificaVetor(vars[i]);
 			vars[i]=vars[i].trim();
 			if(vars[i].charAt(0)=='\''){
 				String[] temp=vars[i].split("\'");
 				System.out.print(temp[1]);
-			}else System.out.print(solve.leExpressao(vars[i], mem));
+			} else if(j != 0) {
+				System.out.println(mem.getVetor(j));
+			} else  {
+				System.out.print(solve.leExpressao(vars[i], mem));
+			}
 		}
 		System.out.print("\n");
 	}
@@ -116,9 +130,9 @@ class Interpretador{
 						System.exit(0);
 					}
 					int j;
+					k[2] = k[2].trim();
 					j = mem.verificaVetor(k[2]);
 					if(j == 0) {
-						k[2] = k[2].trim();
 						mem.criaVetor(k[2], tam);
 						if(k.length == 4) {
 							System.out.println("Que que tu fez viado ?");
