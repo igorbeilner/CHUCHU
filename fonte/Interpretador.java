@@ -220,14 +220,14 @@ class Interpretador{
 					if(j == 0) {
 						mem.criaVetor(k[2], tam);
 						if(k.length == 4) {
-							System.out.println("Que que tu fez viado ?");
+							System.out.println("tentando criar vetor que já existe");
 							System.exit(0);
 						}
 					} else {
 						if(k.length >= 4 && k.length <= 8) {
 							mem.atribuiVetor(k[2], tam, v);
 						} else {
-							System.out.println("Que que tu fez viado2 ?");
+							System.out.println("metodo de atricuicao invalido");
 							System.exit(0);
 						}
 					}
