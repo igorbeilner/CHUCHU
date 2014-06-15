@@ -9,11 +9,15 @@
 
 class Memoria{
 	Variable[] array;
+	private Vetor[] vet;
+	private int topo;
 	private int last;
 
 	public Memoria(){
 		array=new Variable[1000];
-		last = 0;	
+		vet = new Vetor[1000];
+		last = 0;
+		topo = 0;
 	}
 
 	public int atualizaVar(double x, String h){
@@ -26,6 +30,47 @@ class Memoria{
 		}
 		array[i]=new Variable(x, h);
 		last++;
+		return 0;
+	}
+
+	public void atribuiVetor(String nome, int i, double valor) {
+		int j;
+		j = verificaVetor(nome);
+		if(j != 0) {
+			vet[j].setValor(i, valor);
+		} else {
+			System.out.println("ERRO: vetor nao existe");
+			System.exit(0);
+		}
+	}
+
+	public double leVetor(String nome, int i) {
+		int j;
+		j = verificaVetor(nome);
+		if(j != 0) {
+			return vet[j].getValor(i);
+		} else {
+			System.out.println("ERRO: vetor nao existe");
+			System.exit(0);
+		}
+		return 0;
+	}
+
+	public void criaVetor(String nome, int tamanho) {
+		if(verificaVetor(nome) == 0 && (topo+1) < vet.length) {
+			topo++;
+			this.vet[topo] = new Vetor(nome, tamanho);
+		} else {
+			System.out.println("ERRO: vetor duplicado");
+			System.exit(0);
+		}
+	}
+
+	public int verificaVetor(String nome) {
+		int i;
+		for(i = 0; i < topo; i++) {
+			if(vet[i].getNome().equals(nome)) return i;
+		}
 		return 0;
 	}
 
