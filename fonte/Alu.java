@@ -15,7 +15,7 @@ class Alu{
 		String[] vars=expressao.split("\\*|\\+|\\-|%|/");
 		String[] aux = expressao.split("\\*|\\+|\\-|%|\\/|\\[|\\]");
 		double[] vec=new double[vars.length]; 
-		int i, j, indice;
+		int i, j, indice = 0;
 
 		for(i=0; i<vars.length && vars[i]!=null; i++){
 			vars[i]=vars[i].trim();
@@ -29,9 +29,10 @@ class Alu{
 						indice = (int)mem.variavelView(aux[i+1]);
 					} else {
 						System.out.println("indice invalido");
+						System.exit(0);
 					}
 				}
-				vec[i]=mem.leVetor(aux[i], 5);
+				vec[i]=mem.leVetor(aux[i], indice);
 			} else {
 				try{
 					vec[i]=Double.parseDouble(vars[i]);
