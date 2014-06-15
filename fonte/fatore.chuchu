@@ -1,0 +1,18 @@
+var a = 0
+var j = 10
+var m
+vet [j] g
+while a < j
+	get m
+	vet [a] g = m
+	var a = a + 1
+end while
+var a = 0
+while a < j
+	show g[a]
+	var a = a + 1
+end while
+vet [3] g = g[0] + g[1]
+show 'teste '>g[3] 
+var m = g[2] + a
+show 'far ' > m
