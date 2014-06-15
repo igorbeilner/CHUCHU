@@ -13,14 +13,26 @@ class Alu{
 	public double leExpressao(String expressao, Memoria mem){
 		expressao=expressao.trim();
 		String[] vars=expressao.split("\\*|\\+|\\-|%|/");
+		String[] aux = expressao.split("\\*|\\+|\\-|%|\\/|\\[|\\]");
 		double[] vec=new double[vars.length]; 
-		int i, j;
+		int i, j, indice;
 
 		for(i=0; i<vars.length && vars[i]!=null; i++){
 			vars[i]=vars[i].trim();
 			if(mem.variavelExiste(vars[i]))
 				vec[i]=mem.variavelView(vars[i]);
-			else {
+			else if(mem.verificaVetor(aux[i]) != 0){
+				try {
+					indice = Integer.parseInt(aux[i+1]);
+				}catch(Exception e) {
+					if(mem.variavelExiste(aux[i+1])) {
+						indice = (int)mem.variavelView(aux[i+1]);
+					} else {
+						System.out.println("indice invalido");
+					}
+				}
+				vec[i]=mem.leVetor(aux[i], 5);
+			} else {
 				try{
 					vec[i]=Double.parseDouble(vars[i]);
 				}catch(Exception e){
