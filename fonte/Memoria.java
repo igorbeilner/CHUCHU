@@ -66,10 +66,10 @@ class Memoria{
 		}
 	}
 
-	public int verificaVetor(String nome) {
+	public int verificaVetor(String h) {
 		int i;
-		for(i = 0; i < topo; i++) {
-			if(vet[i].getNome().equals(nome)) return i;
+		for(i = 1; i <= topo; i++) {
+			if((vet[i].getNome()).equals(h)) return i;
 		}
 		return 0;
 	}
