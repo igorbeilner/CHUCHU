@@ -5,11 +5,12 @@ get a
 var i = 2
 
 while i <= a
-	aux = a%i
+	var aux = a%i
 	if a & 0
-		show a' 'i
-		a = a/i
+		show i
+		var a = a/i
 	end if
 	if a ! 0
 		var i = i+1
 	end if
+end while
