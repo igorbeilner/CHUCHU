@@ -59,9 +59,9 @@ class Alu{
 	}
 
 	public boolean leIf(String expressao, Memoria mem){
-		expressao=expressao.trim();
-		String[] vars=expressao.split(">|<|&|!");
-		double[] vec=new double[vars.length]; 
+		expressao = expressao.trim();
+		String[] vars = expressao.split(">|<|&|!");
+		double[] vec = new double[vars.length]; 
 		int i;
 		for(i=0; i<vars.length && vars[i]!=null; i++){
 			vars[i]=vars[i].trim();

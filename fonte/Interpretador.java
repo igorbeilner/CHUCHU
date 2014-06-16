@@ -148,9 +148,10 @@ class Interpretador{
 		}
 
 		for(i=0; i<cmd.length && cmd[i] != null; i++){
+			String[] b = cmd[i].split("--");
 			String a = cmd[i].replace(" ","");
 			a = cmd[i].replace("	","");
-			if(a.equals("") == false){				
+			if(a.equals("") == false && b[0].equals("") == false){				
 				//Retira o token e salva na instrucao
 				instrucao=cmd[i].charAt(0);
 				temp=cmd[i].substring(1);
