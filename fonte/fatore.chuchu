@@ -9,10 +9,10 @@ while a < j
 end while
 var a = 0
 while a < j
-	show g[a]
+	show a > g[a]
 	var a = a + 1
 end while
 vet [3] g = g[0] + g[1]
-show 'teste '>g[3] 
-var m = g[2] + a
-show 'far ' > m
+show 'far ' > g[3]
+var m = g[1]+g[2]
+show 'faeeer ' > m
