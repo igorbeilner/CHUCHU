@@ -96,6 +96,7 @@ class Interpretador{
 	}
 
 	private int verificaIndice(String h) {
+		h = h.trim();
 		int tam = 0 ;
 		try {
 			tam = Integer.parseInt(h);
@@ -117,7 +118,7 @@ class Interpretador{
 			v = Double.parseDouble(h);
 		}catch(Exception f) {
 			if(mem.variavelExiste(h)) {
-				v = (int)mem.variavelView(h);
+				v = mem.variavelView(h);
 			} else {
 				System.out.println("atribuicao invalida1");
 				System.exit(0);
@@ -274,7 +275,16 @@ class Interpretador{
 					case '.':
 						//scan
 						double x = s.nextDouble();
-						mem.atualizaVar(x, temp);
+						if(mem.variavelExiste(temp) == true) {
+							mem.atualizaVar(x, temp);
+						} else {
+							String u[] = temp.split("\\[|\\]");
+							int qw;
+							if(mem.verificaVetor(u[0]) != 0) {
+								qw = verificaIndice(u[1]);
+								mem.atribuiVetor(u[0], qw, x);
+							}
+						}
 						break;
 					case '$':
 						//end if
