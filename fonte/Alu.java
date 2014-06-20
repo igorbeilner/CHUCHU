@@ -25,8 +25,6 @@ class Alu{
 				if(aux.length > 1) {
 					aux[0] = aux[0].trim();
 					aux[1] = aux[1].trim();
-					//System.out.print("aux.>0 "+aux[0]);
-					//System.out.println("aux.>1 "+aux[1]);
 					if(mem.verificaVetor(aux[0]) != 0){
 						try {
 							indice = Integer.parseInt(aux[1]);
