@@ -13,7 +13,6 @@ class Alu{
 	public double leExpressao(String expressao, Memoria mem){
 		expressao=expressao.trim();
 		String[] vars=expressao.split("\\*|\\+|\\-|%|/");
-		String[] aux = expressao.split("\\*|\\+|\\-|%|\\/|\\[|\\]");
 		double[] vec=new double[vars.length]; 
 		int i, j, indice = 0;
 
@@ -21,23 +20,32 @@ class Alu{
 			vars[i]=vars[i].trim();
 			if(mem.variavelExiste(vars[i]))
 				vec[i]=mem.variavelView(vars[i]);
-			else if(mem.verificaVetor(aux[i]) != 0){
-				try {
-					indice = Integer.parseInt(aux[i+1]);
-				}catch(Exception e) {
-					if(mem.variavelExiste(aux[i+1])) {
-						indice = (int)mem.variavelView(aux[i+1]);
-					} else {
-						System.out.println("indice invalido");
-						System.exit(0);
+			else {				
+				String[] aux = vars[i].split("\\[|\\]");
+				if(aux.length > 1) {
+					aux[0] = aux[0].trim();
+					aux[1] = aux[1].trim();
+					//System.out.print("aux.>0 "+aux[0]);
+					//System.out.println("aux.>1 "+aux[1]);
+					if(mem.verificaVetor(aux[0]) != 0){
+						try {
+							indice = Integer.parseInt(aux[1]);
+						}catch(Exception e) {
+							if(mem.variavelExiste(aux[1])) {
+								indice = (int)mem.variavelView(aux[1]);
+							} else {
+								System.out.println("indice invalido");
+								System.exit(0);
+							}
+						}
+						vec[i]=mem.leVetor(aux[0], indice);
 					}
-				}
-				vec[i]=mem.leVetor(aux[i], indice);
-			} else {
-				try{
-					vec[i]=Double.parseDouble(vars[i]);
-				}catch(Exception e){
-					vec[i]=0;
+				} else {
+					try{
+						vec[i]=Double.parseDouble(vars[i]);
+					}catch(Exception e){
+						vec[i]=0;
+					}
 				}
 			}
 		}
