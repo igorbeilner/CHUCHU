@@ -14,6 +14,7 @@ class Interpretador{
 	private Pilha loop;
 	private String temp;
 	private Memoria mem;
+	private Memoria memFuncao;
 	private int cont;
 	private Alu solve;
 	private Scanner s;	
@@ -27,6 +28,7 @@ class Interpretador{
 	public Interpretador(){
 		loop=new Pilha();
 		mem = new Memoria();
+		memFuncao = new Memoria();
 		solve = new Alu();
 		s=new Scanner(System.in);
 		flagElse = 0;
@@ -160,6 +162,17 @@ class Interpretador{
 		}
 	}
 
+	private void trocaMemoria(Memoria mem, Memoria memFuncao) {
+		int i;
+		for(i = 0; i < mem.last; i++) {
+			memFuncao.atualizaVar(mem.array[i].valor, mem.array[i].nome);
+		}
+		memFuncao.last = mem.last;
+		memFuncao.topo = mem.topo;
+
+		mem.last = 0;
+	}
+
 	public boolean interpreta(String[] cmd){
 		int i;
 		char instrucao;
@@ -192,6 +205,7 @@ class Interpretador{
 				if(cmd[i].contains("´")) {
 					if(flagF == 0 && retFuncPos > 0) {
 						retFuncPos--;
+						trocaMemoria(memFuncao, mem);
 						i = retFunc[retFuncPos];
 					}
 					flagF = 0;
@@ -351,6 +365,7 @@ class Interpretador{
 							if(existeFuncao(ru[0]) != 2005) {
 								retFunc[retFuncPos] = i;
 								retFuncPos++;
+								trocaMemoria(mem, memFuncao);
 								i = existeFuncao(ru[0]);
 								
 							} else {
