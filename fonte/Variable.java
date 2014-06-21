@@ -8,7 +8,7 @@
 **/	
 
 class Variable{
-	private double valor;
+	public double valor;
 	public String nome;
 
 	public Variable(double x, String h){
