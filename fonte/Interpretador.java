@@ -21,6 +21,8 @@ class Interpretador{
 	private int flagF;
 	private Funcao[] vetorFunc;
 	private int posicaoProg;
+	private int[] retFunc;
+	private int retFuncPos;
 	
 	public Interpretador(){
 		loop=new Pilha();
@@ -31,6 +33,8 @@ class Interpretador{
 		flagF = 0;
 		vetorFunc = new Funcao[1000];
 		posicaoProg = 0;
+		retFunc = new int[30];
+		retFuncPos = 0;
 	}
 
 	private void imprime(String expressao){
@@ -178,7 +182,7 @@ class Interpretador{
 			cmd[i]=cmd[i].replace("end funcao","´");
 			cmd[i]=cmd[i].replace("funcao","~");
 		}
-
+		
 		for(i=0; i<cmd.length && cmd[i] != null; i++){
 			String[] b = cmd[i].split("--");
 			String a = cmd[i].replace(" ","");
@@ -186,6 +190,10 @@ class Interpretador{
 			if(a.equals("") == false && b[0].equals("") == false){				
 				
 				if(cmd[i].contains("´")) {
+					if(flagF == 0 && retFuncPos > 0) {
+						retFuncPos--;
+						i = retFunc[retFuncPos];
+					}
 					flagF = 0;
 					i++;
 				}
@@ -269,7 +277,7 @@ class Interpretador{
 								if(k.length >= 4 && k.length <= 8) {
 									mem.atribuiVetor(k[2], tam, v);
 								} else {
-									System.out.println("metodo de atricuicao invalido");
+									System.out.println("metodo de atricuicao invalido "+i);
 									System.exit(0);
 								}
 							}
@@ -312,9 +320,14 @@ class Interpretador{
 							break;
 						case '~': 
 							//funcao
-							System.out.println(existeFuncao(temp));
-							System.out.println(vetorFunc.length);
 							criaFuncao(temp, i);
+							break;
+						case '´': 
+							//end funcao
+							if(flagF == 0 && retFuncPos > 0) {
+								retFuncPos--;
+								i = retFunc[retFuncPos];
+							}
 							break;
 						case '.':
 							//scan
@@ -333,9 +346,17 @@ class Interpretador{
 						case '$':
 							//end if
 							break;
-						default: 
-							System.out.println(" syntax error "+ (i+1));
-							return false;
+						default:
+							String[] ru = cmd[i].split("[|]");
+							if(existeFuncao(ru[0]) != 2005) {
+								retFunc[retFuncPos] = i;
+								retFuncPos++;
+								i = existeFuncao(ru[0]);
+								
+							} else {
+								System.out.println(" syntax error "+ (i+1));
+								return false;
+							}
 					}
 				}
 			}
