@@ -8,10 +8,10 @@
 **/	
 
 class Memoria{
-	Variable[] array;
-	private Vetor[] vet;
-	private int topo;
-	private int last;
+	public Variable[] array;
+	public Vetor[] vet;
+	public int topo;
+	public int last;
 
 	public Memoria(){
 		array=new Variable[1000];
@@ -24,12 +24,12 @@ class Memoria{
 		int i;
 		for(i=0; i<last; i++){
 			if((array[i].nome).equals(h)){
-				array[i].set_valor(x);
+				this.array[i].set_valor(x);
 				return 1;			
 			}
 		}
 		array[i]=new Variable(x, h);
-		last++;
+		this.last++;
 		return 0;
 	}
 
